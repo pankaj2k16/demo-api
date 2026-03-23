@@ -5,10 +5,10 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 
 import java.time.LocalDate;
+import java.util.UUID;
 
 public record StudentDto(
-        @NotBlank(message = "ID is required")
-        String id,
+        UUID id,
 
         @NotBlank(message = "First name is required")
         @JsonProperty("first_name")

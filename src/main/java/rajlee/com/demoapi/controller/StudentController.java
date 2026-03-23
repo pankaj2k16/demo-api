@@ -6,9 +6,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import rajlee.com.demoapi.dto.StudentDto;
-import rajlee.com.demoapi.service.impl.StudentService;
+import rajlee.com.demoapi.service.StudentService;
 
 import java.util.List;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/students")
@@ -23,7 +24,7 @@ public class StudentController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<StudentDto> getStudentById(@PathVariable String id) {
+    public ResponseEntity<StudentDto> getStudentById(@PathVariable UUID id) {
         return ResponseEntity.ok(studentService.getStudentById(id));
     }
 
@@ -34,12 +35,12 @@ public class StudentController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<StudentDto> updateStudent(@PathVariable String id, @Valid @RequestBody StudentDto studentDto) {
+    public ResponseEntity<StudentDto> updateStudent(@PathVariable UUID id, @Valid @RequestBody StudentDto studentDto) {
         return ResponseEntity.ok(studentService.updateStudent(id, studentDto));
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteStudent(@PathVariable String id) {
+    public ResponseEntity<Void> deleteStudent(@PathVariable UUID id) {
         studentService.deleteStudent(id);
         return ResponseEntity.ok().build();
     }
