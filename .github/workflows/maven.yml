@@ -21,8 +21,26 @@ jobs:
         cache: maven
         
     - name: Build with Maven
-    # We use ./mvnw to ensure the correct maven version is used as defined in the project
       run: chmod +x mvnw && ./mvnw -B package --file pom.xml
+
+    - name: Run OWASP Dependency-Check
+      run: |
+        ./mvnw org.owasp:dependency-check-maven:check -Dformat=HTML
+        
+    - name: Upload Dependency-Check Report
+      if: always()
+      uses: actions/upload-artifact@v4
+      with:
+        name: dependency-check-report
+        path: target/dependency-check-report.html
+
+    - name: Run Snyk to check for vulnerabilities
+      uses: snyk/actions/maven@master
+      continue-on-error: true
+      env:
+        SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+      with:
+        args: --severity-threshold=high
 
     - name: Upload Build Artifact
       uses: actions/upload-artifact@v4
